@@ -28,12 +28,3 @@ func Get(fn interface{}) (fv *FuncVal, makefunc bool) {
 	}
 	return (*FuncVal)(v.word), false
 }
-
-// reflect.makeFuncImpl
-type makeFuncImpl struct {
-	code   uintptr
-	stack  unsafe.Pointer // ptrmap for both args and results
-	argLen uintptr        // just args
-	ftyp   *unsafe.Pointer
-	fn     func([]reflect.Value) []reflect.Value
-}
