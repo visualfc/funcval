@@ -1,7 +1,6 @@
 package funcval
 
 import (
-	"errors"
 	"reflect"
 	"unsafe"
 )
@@ -11,28 +10,30 @@ type FuncVal struct {
 	// variable-size, fn-specific data here
 }
 
-type reflectValue struct {
-	typ  unsafe.Pointer
-	ptr  unsafe.Pointer
-	flag uintptr
+type eface struct {
+	_type unsafe.Pointer
+	word  unsafe.Pointer
 }
 
 var (
 	dummy = reflect.MakeFunc(reflect.TypeOf((*func())(nil)).Elem(), nil).Pointer()
 )
 
-func Get(fn interface{}) (*FuncVal, error) {
-	v := reflect.ValueOf(fn)
-	if v.Kind() != reflect.Func {
-		return nil, errors.New("fn must be a function")
+// Get is get func interface funcval and check make by reflect.MakeFunc
+func Get(fn interface{}) (fv *FuncVal, makefunc bool) {
+	v := (*eface)(unsafe.Pointer(&fn))
+	if *(*uintptr)(v.word) == dummy {
+		impl := (*makeFuncImpl)(v.word)
+		return *(**FuncVal)(unsafe.Pointer(&impl.fn)), true
 	}
-	r := (*reflectValue)(unsafe.Pointer(&v))
-	if v.Pointer() == dummy {
-		return getUser(r.ptr)
-	}
-	return (*FuncVal)(r.ptr), nil
+	return (*FuncVal)(v.word), false
 }
 
-func getUser(ptr unsafe.Pointer) (*FuncVal, error) {
-	return nil, errors.New("not impl")
+// reflect.makeFuncImpl
+type makeFuncImpl struct {
+	code   uintptr
+	stack  unsafe.Pointer // ptrmap for both args and results
+	argLen uintptr        // just args
+	ftyp   *unsafe.Pointer
+	fn     func([]reflect.Value) []reflect.Value
 }

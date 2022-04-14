@@ -15,9 +15,9 @@ func TestMakeFuncInt(t *testing.T) {
 		return []reflect.Value{reflect.ValueOf(i)}
 	}
 	vfn := reflect.MakeFunc(reflect.TypeOf((*func() int)(nil)).Elem(), fn)
-	fv, err := funcval.Get(fn)
-	if err != nil {
-		t.Fatal(err)
+	fv, b := funcval.Get(vfn.Interface())
+	if b != true {
+		t.Fatal(b)
 	}
 	type Closure struct {
 		funcval.FuncVal
@@ -39,9 +39,9 @@ func TestMakeFuncSlice(t *testing.T) {
 		return []reflect.Value{reflect.ValueOf(env)}
 	}
 	vfn := reflect.MakeFunc(reflect.TypeOf((*func() []interface{})(nil)).Elem(), fn)
-	fv, err := funcval.Get(fn)
-	if err != nil {
-		t.Fatal(err)
+	fv, b := funcval.Get(vfn.Interface())
+	if b != true {
+		t.Fatal(b)
 	}
 	env[1] = "world"
 	type Closure struct {

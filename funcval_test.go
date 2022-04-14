@@ -13,9 +13,9 @@ func TestFuncInt(t *testing.T) {
 	fn := func() int {
 		return i
 	}
-	fv, err := funcval.Get(fn)
-	if err != nil {
-		t.Fatal(err)
+	fv, b := funcval.Get(fn)
+	if b != false {
+		t.Fatal(b)
 	}
 	type Closure struct {
 		funcval.FuncVal
@@ -36,9 +36,9 @@ func TestFuncSlice(t *testing.T) {
 	fn := func() []interface{} {
 		return env
 	}
-	fv, err := funcval.Get(fn)
-	if err != nil {
-		t.Fatal(err)
+	fv, b := funcval.Get(fn)
+	if b != false {
+		t.Fatal(b)
 	}
 	env[1] = "world"
 	type Closure struct {
