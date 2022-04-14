@@ -17,11 +17,22 @@ type reflectValue struct {
 	flag uintptr
 }
 
+var (
+	dummy = reflect.MakeFunc(reflect.TypeOf((*func())(nil)).Elem(), nil).Pointer()
+)
+
 func Get(fn interface{}) (*FuncVal, error) {
 	v := reflect.ValueOf(fn)
 	if v.Kind() != reflect.Func {
 		return nil, errors.New("fn must be a function")
 	}
 	r := (*reflectValue)(unsafe.Pointer(&v))
-	return (*FuncVal)(unsafe.Pointer(r.ptr)), nil
+	if v.Pointer() == dummy {
+		return getUser(r.ptr)
+	}
+	return (*FuncVal)(r.ptr), nil
+}
+
+func getUser(ptr unsafe.Pointer) (*FuncVal, error) {
+	return nil, errors.New("not impl")
 }
