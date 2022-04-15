@@ -6,7 +6,7 @@ import (
 )
 
 type FuncVal struct {
-	fn uintptr
+	Fn uintptr
 	// variable-size, fn-specific data here
 }
 
@@ -19,12 +19,14 @@ var (
 	dummy = reflect.MakeFunc(reflect.TypeOf((*func())(nil)).Elem(), nil).Pointer()
 )
 
-// Get is get func interface funcval and check make by reflect.MakeFunc
-func Get(fn interface{}) (fv *FuncVal, makefunc bool) {
+// Get returns function/closure interface *FuncVal and count of make by reflect.MakeFunc
+func Get(fn interface{}) (fv *FuncVal, makefunc int) {
 	v := (*eface)(unsafe.Pointer(&fn))
-	if *(*uintptr)(v.word) == dummy {
-		impl := (*makeFuncImpl)(v.word)
-		return *(**FuncVal)(unsafe.Pointer(&impl.fn)), true
+	fv = (*FuncVal)(v.word)
+	for fv.Fn == dummy {
+		impl := (*makeFuncImpl)(unsafe.Pointer(fv))
+		fv = *(**FuncVal)(unsafe.Pointer(&impl.fn))
+		makefunc++
 	}
-	return (*FuncVal)(v.word), false
+	return
 }
