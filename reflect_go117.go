@@ -6,8 +6,6 @@ package funcval
 import (
 	"reflect"
 	"unsafe"
-
-	"github.com/visualfc/funcval/abi"
 )
 
 type makeFuncImpl struct {
@@ -20,5 +18,5 @@ type makeFuncCtxt struct {
 	fn      uintptr
 	stack   unsafe.Pointer // ptrmap for both stack args and results
 	argLen  uintptr        // just args
-	regPtrs abi.IntArgRegBitmap
+	regPtrs [0]uint8       // abi.IntArgRegBitmap [(IntArgRegs + 7) / 8]uint8
 }
