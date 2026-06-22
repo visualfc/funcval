@@ -2,12 +2,7 @@ package funcval
 
 import (
 	"reflect"
-	"runtime"
 	"unsafe"
-)
-
-const (
-	IsSupport = runtime.Compiler != "gopherjs"
 )
 
 type FuncVal struct {

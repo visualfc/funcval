@@ -2,11 +2,18 @@ package funcval_test
 
 import (
 	"fmt"
+	"runtime"
 	"testing"
 	"unsafe"
 
 	"github.com/visualfc/funcval"
 )
+
+func TestSupport(t *testing.T) {
+	if !funcval.IsSupport {
+		t.Fatal("not support", runtime.Compiler)
+	}
+}
 
 func loadIndex(i int) func() int {
 	return func() int {
