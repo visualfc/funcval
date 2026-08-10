@@ -1,11 +1,7 @@
 # funcval
 golang runtime funcval extract
 
-[![Go1.14](https://github.com/visualfc/funcval/workflows/Go1.14/badge.svg)](https://github.com/visualfc/funcval/actions/workflows/go114.yml)
-[![Go1.15](https://github.com/visualfc/funcval/workflows/Go1.15/badge.svg)](https://github.com/visualfc/funcval/actions/workflows/go115.yml)
-[![Go1.16](https://github.com/visualfc/funcval/workflows/Go1.16/badge.svg)](https://github.com/visualfc/funcval/actions/workflows/go116.yml)
-[![Go1.17](https://github.com/visualfc/funcval/workflows/Go1.17/badge.svg)](https://github.com/visualfc/funcval/actions/workflows/go117.yml)
-[![Go1.18](https://github.com/visualfc/funcval/workflows/Go1.18/badge.svg)](https://github.com/visualfc/funcval/actions/workflows/go118.yml)
+[![Go](https://github.com/visualfc/funcval/workflows/Go/badge.svg)](https://github.com/visualfc/funcval/actions/workflows/go.yml)
 
 ### extract closure env variable
 
